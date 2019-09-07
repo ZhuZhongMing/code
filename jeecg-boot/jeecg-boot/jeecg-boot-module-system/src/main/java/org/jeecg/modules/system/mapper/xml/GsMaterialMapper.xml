@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.system.mapper.GsMaterialMapper">
+
+    <select id="queryListInfo" resultType="org.jeecg.modules.system.entity.GsMaterial">
+        select * from gs_material where State != 3
+    </select>
+
+    <select id="getInfo" resultType="org.jeecg.modules.system.vo.GsVO" parameterType="java.lang.String">
+
+        SELECT a.BatchId , a.MaterialId , a.ProcessMode , a.State , b.ProcessId , b.ProcessName , b.ReactionCellId , b.ProcessTime ,
+        c.WorkId , c.StartTime , c.EndTime , c.WorkTime , d.ReactionCellName
+        from gs_material a LEFT OUTER JOIN gs_schedule c  on a.BatchId = c.BatchId LEFT OUTER JOIN  gs_process b on c.ProcessId = b.ProcessId  LEFT OUTER JOIN gs_reactioncell d  on b.ReactionCellId = d.ReactionCellId
+        WHERE a.BatchId =#{batchid}
+        ORDER BY c.WorkId desc
+        limit 1
+
+    </select>
+
+</mapper>
